@@ -10,8 +10,7 @@ from EstimationSelector import EstimationSelector
 import BasicDetector
 
 # Video path (also can be image sequence folder path)
-video_path = "C:\\Users\\Shiqi\\Downloads\\ballboxsingleball - Made with Clipchamp.mp4"
-# Sorry for using absolute path QAQ (The video is too large to upload to GitHub)
+video_path = "../resources/Single_Ball_Test_Video.mp4"
 
 def get_frames(is_video, path):
     """
