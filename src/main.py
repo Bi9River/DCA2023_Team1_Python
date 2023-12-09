@@ -10,7 +10,11 @@ from EstimationSelector import EstimationSelector
 import BasicDetector
 
 # Video path (also can be image sequence folder path)
-video_path = "../resources/Single_Ball_Test_Video.mp4"
+# video_path = "../resources/Single_Ball_Test_Video.mp4"
+VIDEO_PATH = "../resources/moving_circle_1.mp4"
+
+# Object Detector or Basic Detector
+IS_USING_OBJECT_DETECTOR = False
 
 def get_frames(is_video, path):
     """
@@ -41,9 +45,9 @@ def get_frames(is_video, path):
 def main():
     frames = []
     is_video = True # Set to false if we are using sequences of images
-    frames_cap1 = get_frames(is_video, video_path)
-    frames_cap2 = get_frames(is_video, video_path)
-    frames_cap3 = get_frames(is_video, video_path)
+    frames_cap1 = get_frames(is_video, VIDEO_PATH)
+    frames_cap2 = get_frames(is_video, VIDEO_PATH)
+    frames_cap3 = get_frames(is_video, VIDEO_PATH)
     frames = frames_cap1
 
     OD_1 = ObjectDetector()
@@ -66,9 +70,17 @@ def main():
         frame_cap2 = frames_cap2[i]
         frame_cap3 = frames_cap3[i]
 
-        detection_results_1 = OD_1.detect(frame_cap1)
-        detection_results_2 = OD_2.detect(frame_cap2)
-        detection_results_3 = OD_3.detect(frame_cap3)
+        detection_results_1 = None
+        detection_results_2 = None
+        detection_results_3 = None
+        if IS_USING_OBJECT_DETECTOR:
+            detection_results_1 = OD_1.detect(frame_cap1)
+            detection_results_2 = OD_2.detect(frame_cap2)
+            detection_results_3 = OD_3.detect(frame_cap3)
+        else:
+            detection_results_1 = BasicDetector.detect(frame_cap1)
+            detection_results_2 = BasicDetector.detect(frame_cap2)
+            detection_results_3 = BasicDetector.detect(frame_cap3)
         detection_results = OD.detect(frame_cap1)
 
         # DEPENDABILITY #2 - Voting

@@ -1,46 +1,37 @@
 import numpy as np
 import cv2
 
-
-# If not using the real object (e.g. basketball, etc.), use this detector instead of the ObjectDetector class
-def detect(frame, debugMode):
-    # Convert frame from BGR to GRAY
+def detect(frame, debugMode=True):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    if (debugMode):
+    if debugMode:
         cv2.imshow('gray', gray)
 
-    # Edge detection using Canny function
     img_edges = cv2.Canny(gray, 50, 190, 3)
-    if (debugMode):
+    if debugMode:
         cv2.imshow('img_edges', img_edges)
 
-    # Convert to black and white image
     ret, img_thresh = cv2.threshold(img_edges, 254, 255, cv2.THRESH_BINARY)
-    if (debugMode):
+    if debugMode:
         cv2.imshow('img_thresh', img_thresh)
 
-    # Find contours
     contours, _ = cv2.findContours(img_thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    # Set the accepted minimum & maximum radius of a detected object
     min_radius_thresh = 3
-    max_radius_thresh = 30
+    max_radius_thresh = 50
 
-    centers = []
-    for c in contours:
-        # ref: https://docs.opencv.org/trunk/dd/d49/tutorial_py_contour_features.html
+    result_positions = []
+    for idx, c in enumerate(contours):
         (x, y), radius = cv2.minEnclosingCircle(c)
         radius = int(radius)
 
-        # Take only the valid circle(s)
-        if (radius > min_radius_thresh) and (radius < max_radius_thresh):
-            centers.append(np.array([[x], [y]]))
+        if min_radius_thresh < radius < max_radius_thresh:
+            label = f"basic_object_{idx}"
+            x_pos = int(x)
+            y_pos = int(y)
+            result_positions.append([x_pos, y_pos, label])
 
-    for item in centers:
-        print(item)
-    cv2.imshow('contours', img_thresh)
-    return centers
+    if debugMode:
+        cv2.imshow('contours', img_thresh)
 
-
-
+    return result_positions
