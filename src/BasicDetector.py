@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 
 def detect(frame, debugMode=True):
+    debugMode=False
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     if debugMode:
@@ -31,7 +32,7 @@ def detect(frame, debugMode=True):
             y_pos = int(y)
             result_positions.append([x_pos, y_pos, label])
 
-    if debugMode:
-        cv2.imshow('contours', img_thresh)
+    # if debugMode:
+        # cv2.imshow('contours', img_thresh)
 
     return result_positions
