@@ -54,6 +54,8 @@ def get_frames(is_video, path):
 
 def main(test_category, video_path):
     frames = []
+    ground_truth_positions.clear()
+    predicted_positions.clear()
     is_video = True # Set to false if we are using sequences of images
     frames_cap1 = get_frames(is_video, video_path)
     frames_cap2 = get_frames(is_video, video_path)
@@ -73,6 +75,9 @@ def main(test_category, video_path):
     counter = 0
     print('Total frames:', len(frames_cap1))
 
+    # print frame width and height
+    print('frame width:', frames_cap1[0].shape[1])
+    print('frame height:', frames_cap1[0].shape[0])
     for i in range(len(frames_cap1)):
     # for i in range(100):
         print('frame:', counter)
@@ -272,18 +277,23 @@ def main(test_category, video_path):
     filtered_ground_truth = np.array(filtered_ground_truth)
     filtered_predicted = np.array(filtered_predicted)
 
-    fig, ax = plt.subplots(figsize=(2.13, 1.6))
+    fig, ax = plt.subplots()
     ax.plot(np.array(filtered_ground_truth)[:, 0], np.array(filtered_ground_truth)[:, 1], 'r--', label='ground truth')
     ax.plot(np.array(filtered_predicted)[:, 0], np.array(filtered_predicted)[:, 1], 'b--', label='predicted')
     ax.legend(loc='upper right')
     ax.set_xlabel('x')
     ax.set_ylabel('y')
-
+    ymin, ymax = 0, 1080
+    xmin, xmax = 0, 1920
+    ax.set_ylim(ymin, ymax)
+    ax.set_xlim(xmin, xmax)
     plt.show()
     # save the figure
-    fig.savefig(test_category + '.png', dpi=300)
+    fig.savefig(test_category + '.png', dpi=500)
+    fig.clf()
 
 def dispatch():
+    # TEST_CATEGORIES = ['acc_lin']
     TEST_CATEGORIES = ['uni_lin', 'uni_cir', 'acc_lin', 'acc_cir', 'Const_Velocity_Const_Motion']
     # TEST_CATEGORIES = ['Const_velocity_Const_Motion', '1', '2', '3', '4']
     for CURRENT_TEST_CATEGORY in TEST_CATEGORIES:

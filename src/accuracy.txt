@@ -1,16 +1,21 @@
+------------------------
 uni_lin: 95.59748427672956%
 correct_cnt: 152
 total_cnt: 159
 ------------------------
-uni_cir: 93.76770538243626%
-correct_cnt: 331
-total_cnt: 353
+uni_cir: 92.26804123711341%
+correct_cnt: 179
+total_cnt: 194
 ------------------------
-acc_lin: 93.21266968325791%
-correct_cnt: 412
-total_cnt: 442
+acc_lin: 91.01123595505618%
+correct_cnt: 81
+total_cnt: 89
 ------------------------
-acc_cir: 91.19266055045871%
-correct_cnt: 497
-total_cnt: 545
+acc_cir: 82.52427184466019%
+correct_cnt: 85
+total_cnt: 103
+------------------------
+Const_Velocity_Const_Motion: 92.55014326647564%
+correct_cnt: 323
+total_cnt: 349
 ------------------------
