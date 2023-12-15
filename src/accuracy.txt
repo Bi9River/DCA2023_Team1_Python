@@ -22,9 +22,9 @@ Fault Injection: [True, False, False]
 correct_cnt: 178
 total_cnt: 193
 ------------------------
-uni_cir: 89.63730569948186%
+uni_cir: 93.78238341968912%
 Fault Injection: [False, False, False]
-correct_cnt: 173
+correct_cnt: 181
 total_cnt: 193
 ------------------------
 uni_cir: 92.74611398963731%
