@@ -7,7 +7,7 @@ class EstimationSelector(object):
         # calculate the distance between two points
         return ((point1[0] - point2[0])**2 + (point1[1] - point2[1])**2)**0.5
 
-    def select(self, candidate, kalman_result, threshold=5, max_count=3):
+    def select(self, candidate, kalman_result, threshold=5, max_count=4):
         # calculate the distance between the candidate and the kalman result
         distance = self.distance(candidate, kalman_result)
         # print('candidate:', candidate)
