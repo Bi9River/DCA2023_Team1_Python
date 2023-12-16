@@ -50,7 +50,7 @@ plt.ylim(0, 100)  # Set the limit for y-axis to 0-100 since these are percentage
 
 # Display the plot
 plt.tight_layout()
-plt.show()
+# plt.show()
 plt.savefig('errors_not_exceed_max_threshold_accuracy.png', dpi=500)
 plt.clf()
 
@@ -74,6 +74,6 @@ plt.ylim(0, 100)  # Set the limit for y-axis to 0-100 since these are percentage
 
 # Display the plot
 plt.tight_layout()
-plt.show()
+# plt.show()
 plt.savefig('errors_exceed_max_threshold_accuracy.png', dpi=500)
 plt.clf()
