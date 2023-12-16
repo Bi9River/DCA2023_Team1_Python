@@ -67,9 +67,17 @@ def get_frames(is_video, path, fault_injection=False):
         for i in tqdm(range(frame_count)):
             ret, frame = VideoCap.read()
             if ret:
-                if fault_injection and i in [middle_frame_index, middle_frame_index + 1, middle_frame_index * 2, middle_frame_index * 2 + 1, middle_frame_index * 3, middle_frame_index * 3 + 1]:
+                if fault_injection and (i in [middle_frame_index, middle_frame_index + 1, middle_frame_index + 2, middle_frame_index + 3, middle_frame_index + 4, middle_frame_index + 5,
+                                             middle_frame_index * 2, middle_frame_index * 2 + 1, middle_frame_index * 2 + 2, middle_frame_index * 2 + 3, middle_frame_index * 2 + 4, middle_frame_index * 2 + 5,
+                                             middle_frame_index * 3, middle_frame_index * 3 + 1, middle_frame_index * 3 + 2, middle_frame_index * 3 + 3, middle_frame_index * 3 + 4, middle_frame_index * 3 + 5]):
+                # if fault_injection and i in [middle_frame_index, middle_frame_index + 1, middle_frame_index * 2, middle_frame_index * 2 + 1, middle_frame_index * 3, middle_frame_index * 3 + 1]:
                     # Apply the fault injection
-                    shift_pixels = 40 if i == middle_frame_index else -40
+                    # shift_pixels = 40 if i == middle_frame_index else -40
+                    shift_pixels = 40
+                    if i %middle_frame_index == 0 or i %middle_frame_index == 2 or i %middle_frame_index == 4:
+                        shift_pixels = 40
+                    elif i %middle_frame_index == 1 or i %middle_frame_index == 3 or i %middle_frame_index == 5:
+                        shift_pixels = -40
                     frame = shift_frame(frame, shift_pixels)
                 frames.append(frame)
             else:
@@ -332,6 +340,7 @@ def main(test_category, video_path, fault_injection=[False, False, False]):
     # save the accuracy, counts to a  single file
     with open('accuracy.txt', 'a') as f:
         f.write(test_category + ': ' + str(correct_cnt / total_cnt * 100) + '%\n')
+        f.write('# of frames for single fault injection: ' + "6" + '\n')
         f.write('Fault Injection: ' + str(fault_injection) + '\n')
         f.write('correct_cnt: ' + str(correct_cnt) + '\n')
         f.write('total_cnt: ' + str(total_cnt) + '\n')
@@ -356,12 +365,12 @@ def main(test_category, video_path, fault_injection=[False, False, False]):
     ax.set_xlim(xmin, xmax)
     plt.show()
     # save the figure
-    fig.savefig(test_category + '_fault_injection_' + str(fault_injection[0]) + '_' + str(fault_injection[1]) + "_" + str(fault_injection[2]) + '.png', dpi=500)
+    fig.savefig("./"+test_category + '_6_errors_fault_injection_' + str(fault_injection[0]) + '_' + str(fault_injection[1]) + "_" + str(fault_injection[2]) + '.png', dpi=500)
     fig.clf()
 
 def dispatch():
-    # TEST_CATEGORIES = ['uni_cir']
-    TEST_CATEGORIES = ['uni_lin', 'uni_cir', 'acc_lin', 'acc_cir', 'Const_Velocity_Const_Motion']
+    TEST_CATEGORIES = ['Const_Velocity_Const_Motion']
+    # TEST_CATEGORIES = ['uni_lin', 'uni_cir', 'acc_lin', 'acc_cir', 'Const_Velocity_Const_Motion']
     # TEST_CATEGORIES = ['Const_velocity_Const_Motion', '1', '2', '3', '4']
     for CURRENT_TEST_CATEGORY in TEST_CATEGORIES:
         TEST_CATEGORY = CURRENT_TEST_CATEGORY
@@ -372,7 +381,7 @@ def dispatch():
         main(TEST_CATEGORY, VIDEO_PATH, [True, False, False])
 
         # Without fault injection
-        main(TEST_CATEGORY, VIDEO_PATH, [False, False, False])
+        # main(TEST_CATEGORY, VIDEO_PATH, [False, False, False])
 
         # With 2 fault injections
         main(TEST_CATEGORY, VIDEO_PATH, [True, True, False])
